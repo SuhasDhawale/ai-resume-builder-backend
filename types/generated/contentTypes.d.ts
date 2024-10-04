@@ -1,5 +1,42 @@
 import type { Struct, Schema } from '@strapi/strapi';
 
+export interface ApiUserResumeUserResume extends Struct.CollectionTypeSchema {
+  collectionName: 'user_resumes';
+  info: {
+    singularName: 'user-resume';
+    pluralName: 'user-resumes';
+    displayName: 'User Resume';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    resumeid: Schema.Attribute.String;
+    userEmail: Schema.Attribute.Email;
+    userName: Schema.Attribute.String;
+    firstName: Schema.Attribute.String;
+    lastName: Schema.Attribute.String;
+    address: Schema.Attribute.String;
+    jobTitle: Schema.Attribute.String;
+    phone: Schema.Attribute.String;
+    email: Schema.Attribute.String;
+    summery: Schema.Attribute.Text;
+    education: Schema.Attribute.Component<'education.education', true>;
+    Experience: Schema.Attribute.Component<'experience.experience', true>;
+    Skills: Schema.Attribute.Component<'skills.skills', true>;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+  };
+}
+
 export interface PluginUploadFile extends Struct.CollectionTypeSchema {
   collectionName: 'files';
   info: {
@@ -794,6 +831,7 @@ export interface AdminTransferTokenPermission
 declare module '@strapi/strapi' {
   export module Public {
     export interface ContentTypeSchemas {
+      'api::user-resume.user-resume': ApiUserResumeUserResume;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::i18n.locale': PluginI18NLocale;
